@@ -11,10 +11,14 @@ async function startServer() {
   const server = createServer(app);
 
   // Serve static files from dist/public in production
-  const staticPath =
-    process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+  const staticPath = process.env.NODE_ENV === "production"
+    ? path.resolve(__dirname, "public")
+    : path.resolve(__dirname, "..", "dist", "public");
+  
+  // Ensure NODE_ENV is set for Railway
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = "production";
+  }
 
   app.use(express.static(staticPath));
 
